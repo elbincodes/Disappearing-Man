@@ -16,9 +16,19 @@ class Api::V1::WordsController < ApplicationController
     end
   end
 
+  def create
+    @word = Word.new(word_params)
+
+    if @word.save
+      render json: @word
+    else
+      render json: {errors: @word.errors.full_messages}, status: 422
+    end
+  end
+
   private
 
   def word_params
-    params.permit(:name, :image_url, :difficulty)
+    params.permit(:name, :url, :level_id)
   end
 end
